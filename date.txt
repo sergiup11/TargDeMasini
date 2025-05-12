@@ -1,1 +1,14 @@
-BMW,X1,2010,5000,Motorina
+Dacia,Logan,2018,4500,Benzina,2024-05-13
+Volkswagen,Golf,2020,9000,Motorina,2023-12-01
+Renault,Zoe,2022,12000,Electric,2024-01-15
+Toyota,Prius,2019,8000,Hibrid,2022-11-20
+Ford,Focus,2017,5200,Motorina,2023-10-10
+Opel,Astra,2016,4300,Benzina,2022-09-05
+Hyundai,Ioniq,2021,15000,Electric,2024-03-22
+BMW,320d,2019,13500,Motorina,2023-07-18
+Audi,A4,2018,11000,Benzina,2023-05-30
+Kia,Niro,2020,17000,Hibrid,2024-02-14
+Tesla,Model 3,2022,35000,Electric,2024-04-01
+Mazda,3,2015,4000,Benzina,2022-08-12
+Peugeot,208,2017,6000,Motorina,2023-11-25
+Honda,Civic,2019,9500,Benzina,2023-06-17

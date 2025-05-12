@@ -11,7 +11,6 @@ namespace TargDeMasini
         //private const string filePath = @"C:\Users\sergi\Desktop\test\1\PIU\mx\date.txt";
         private const string filePath = @"C:\Users\Lenovo\Desktop\a\date.txt";
 
-
         public MainForm()
         {
             InitializeComponent();
@@ -41,10 +40,21 @@ namespace TargDeMasini
                 string pretText = Prompt("Pret:");
                 if (!decimal.TryParse(pretText, out decimal pret)) { MessageBox.Show("Pret invalid!"); return; }
 
-                string combustibilText = Prompt("Combustibil (0:Benzina, 1:Motorina, 2:Electric, 3:Hibrid):");
-                if (!Enum.TryParse(combustibilText, out TipCombustibil combustibil)) { MessageBox.Show("Combustibil invalid!"); return; }
+                // Selectează combustibilul din checkbox-uri
+                TipCombustibil? combustibil = null;
+                int checkedCount = 0;
+                if (checkBoxBenzina.Checked) { combustibil = TipCombustibil.Benzina; checkedCount++; }
+                if (checkBoxMotorina.Checked) { combustibil = TipCombustibil.Motorina; checkedCount++; }
+                if (checkBoxElectric.Checked) { combustibil = TipCombustibil.Electric; checkedCount++; }
+                if (checkBoxHibrid.Checked) { combustibil = TipCombustibil.Hibrid; checkedCount++; }
 
-                var masina = new Masina(marca, model, an, pret, combustibil);
+                if (checkedCount != 1)
+                {
+                    MessageBox.Show("Selectează un singur tip de combustibil!");
+                    return;
+                }
+
+                var masina = new Masina(marca, model, an, pret, combustibil.Value, dateTimePickerDataAdaugare.Value);
                 targAuto.AdaugaMasina(masina);
                 MessageBox.Show("Mașina a fost adăugată.");
             }
@@ -79,17 +89,27 @@ namespace TargDeMasini
                 string pretText = Prompt("Prețul mașinii de șters:");
                 if (!decimal.TryParse(pretText, out decimal pret)) { MessageBox.Show("Preț invalid!"); return; }
 
-                string combustibilText = Prompt("Combustibilul mașinii de șters (0:Benzina, 1:Motorina, 2:Electric, 3:Hibrid):");
-                if (!Enum.TryParse(combustibilText, out TipCombustibil combustibil)) { MessageBox.Show("Combustibil invalid!"); return; }
+                // Selectează combustibilul din checkbox-uri
+                TipCombustibil? combustibil = null;
+                int checkedCount = 0;
+                if (checkBoxBenzina.Checked) { combustibil = TipCombustibil.Benzina; checkedCount++; }
+                if (checkBoxMotorina.Checked) { combustibil = TipCombustibil.Motorina; checkedCount++; }
+                if (checkBoxElectric.Checked) { combustibil = TipCombustibil.Electric; checkedCount++; }
+                if (checkBoxHibrid.Checked) { combustibil = TipCombustibil.Hibrid; checkedCount++; }
 
-                targAuto.StergeMasina(marca, model, pret, combustibil);
+                if (checkedCount != 1)
+                {
+                    MessageBox.Show("Selectează un singur tip de combustibil pentru ștergere!");
+                    return;
+                }
+
+                targAuto.StergeMasina(marca, model, pret, combustibil.Value);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Eroare: {ex.Message}");
             }
         }
-
 
         private void BtnSalveazaFisier_Click(object sender, EventArgs e)
         {
@@ -101,7 +121,6 @@ namespace TargDeMasini
             targAuto.CitesteDinFisier();
         }
 
-        
         private string Prompt(string text)
         {
             return Microsoft.VisualBasic.Interaction.InputBox(text, "Input", "");
@@ -118,5 +137,59 @@ namespace TargDeMasini
                 MessageBox.Show($"Eroare la citirea datelor din fișier: {ex.Message}");
             }
         }
+        private void CheckBoxCombustibil_CheckedChanged(object sender, EventArgs e)
+        {
+            // Permite selectarea unui singur tip de combustibil
+            var changed = sender as CheckBox;
+            if (changed.Checked)
+            {
+                // Debifează celelalte
+                if (changed != checkBoxBenzina) checkBoxBenzina.Checked = false;
+                if (changed != checkBoxMotorina) checkBoxMotorina.Checked = false;
+                if (changed != checkBoxElectric) checkBoxElectric.Checked = false;
+                if (changed != checkBoxHibrid) checkBoxHibrid.Checked = false;
+            }
+
+            // Determină tipul selectat
+            TipCombustibil? combustibil = null;
+            if (checkBoxBenzina.Checked) combustibil = TipCombustibil.Benzina;
+            if (checkBoxMotorina.Checked) combustibil = TipCombustibil.Motorina;
+            if (checkBoxElectric.Checked) combustibil = TipCombustibil.Electric;
+            if (checkBoxHibrid.Checked) combustibil = TipCombustibil.Hibrid;
+
+            // Filtrează și afișează
+            AfiseazaMasiniFiltrate(combustibil);
+        }
+
+        private void AfiseazaMasiniFiltrate(TipCombustibil? combustibil)
+        {
+            var masini = targAuto.GetMasini();
+            if (combustibil.HasValue)
+                masini = masini.FindAll(m => m.Combustibil == combustibil.Value);
+
+            dataGridViewMasini.DataSource = null;
+            dataGridViewMasini.DataSource = masini;
+        }
+        private void RadioDisponibilitate_CheckedChanged(object sender, EventArgs e)
+        {
+            FiltreazaDupaDataSiDisponibilitate();
+        }
+        private void FiltreazaDupaDataSiDisponibilitate()
+        {
+            var masini = targAuto.GetMasini();
+            DateTime dataSelectata = dateTimePickerDataAdaugare.Value;
+
+            if (radioDisponibile.Checked)
+            {
+                // Asigură-te că Masina are proprietatea DataAdaugare!
+                masini = masini.FindAll(m => m.DataAdaugare.Date == dataSelectata.Date);
+            }
+            // Dacă e bifat "Toate", nu filtrăm după dată
+
+            dataGridViewMasini.DataSource = null;
+            dataGridViewMasini.DataSource = masini;
+        }
+
+      
     }
 }
