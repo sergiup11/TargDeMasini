@@ -1,0 +1,10 @@
+C:\Users\Lenovo\source\repos\folder\MainForm\bin\Debug\MainForm.exe.config
+C:\Users\Lenovo\source\repos\folder\MainForm\bin\Debug\MainForm.exe
+C:\Users\Lenovo\source\repos\folder\MainForm\bin\Debug\MainForm.pdb
+C:\Users\Lenovo\source\repos\folder\MainForm\obj\Debug\MainForm.csproj.AssemblyReference.cache
+C:\Users\Lenovo\source\repos\folder\MainForm\obj\Debug\TargDeMasini.MainForm.resources
+C:\Users\Lenovo\source\repos\folder\MainForm\obj\Debug\MainForm.Properties.Resources.resources
+C:\Users\Lenovo\source\repos\folder\MainForm\obj\Debug\MainForm.csproj.GenerateResource.cache
+C:\Users\Lenovo\source\repos\folder\MainForm\obj\Debug\MainForm.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\source\repos\folder\MainForm\obj\Debug\MainForm.exe
+C:\Users\Lenovo\source\repos\folder\MainForm\obj\Debug\MainForm.pdb
